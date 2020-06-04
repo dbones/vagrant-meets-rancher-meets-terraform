@@ -1,23 +1,12 @@
-
-variable "url" {
-  type = string
-}
-
-variable "token" {
-  type = string
-}
-
-variable "username" {
-  type = string
-}
-
-
 provider "rancher2" {
   api_url   = var.url
   token_key = var.token
   insecure  = true
 }
 
+locals {
+  token = rancher2_cluster.dev_cluster.cluster_registration_token[0]
+}
 
 resource "rancher2_user" "default_user" {
   name     = var.username
@@ -61,21 +50,7 @@ resource "rancher2_cluster" "dev_cluster" {
   }
 }
 
-locals {
-  token = rancher2_cluster.dev_cluster.cluster_registration_token[0]
-}
-
-
-
 resource "local_file" "kube_file" {
   content  = rancher2_cluster.dev_cluster.kube_config
   filename = "${path.module}/kube-config.txt"
-}
-
-output "registration_token" {
-  value = rancher2_cluster.dev_cluster.cluster_registration_token[0]
-}
-
-output "token" {
-  value = local.token.node_command
 }

@@ -57,8 +57,6 @@ output "token" {
   value = module.rancher_configuration.token
 }
 
-
-
 resource "null_resource" "register_cluster_nodes" {
   count = local.node_count
   provisioner "remote-exec" {
@@ -79,4 +77,3 @@ resource "null_resource" "register_cluster_nodes" {
     module.rancher_configuration.token
   ]
 }
-
