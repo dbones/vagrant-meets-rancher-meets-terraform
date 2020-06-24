@@ -1,9 +1,9 @@
-provider "rke" {
-  debug = false
-}
-
 locals {
   kube_config_path = "${path.module}/kube-config.yaml"
+}
+
+provider "rke" {
+  debug = false
 }
 
 resource rke_cluster "cluster" {

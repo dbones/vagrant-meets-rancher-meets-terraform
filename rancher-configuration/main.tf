@@ -1,12 +1,22 @@
+variable "url" {
+  type = string
+}
+
+variable "token" {
+  type = string
+}
+
+variable "username" {
+  type = string
+}
+
+
 provider "rancher2" {
   api_url   = var.url
   token_key = var.token
   insecure  = true
 }
 
-locals {
-  token = rancher2_cluster.dev_cluster.cluster_registration_token[0]
-}
 
 resource "rancher2_user" "default_user" {
   name     = var.username
@@ -25,14 +35,20 @@ resource "rancher2_cluster" "dev_cluster" {
   name        = "development"
   description = "Foo rancher2 custom cluster"
   rke_config {
+
+    kubernetes_version = "v1.18.3-rancher2-2"
+    
     network {
       plugin = "canal"
     }
+    
     services {
+      
       etcd {
         creation  = "6h"
         retention = "24h"
       }
+
       kube_api {
         audit_log {
           enabled = true
@@ -46,11 +62,30 @@ resource "rancher2_cluster" "dev_cluster" {
           }
         }
       }
+
     }
   }
 }
 
+locals {
+  token = rancher2_cluster.dev_cluster.cluster_registration_token[0]
+}
+
+
+
 resource "local_file" "kube_file" {
   content  = rancher2_cluster.dev_cluster.kube_config
   filename = "${path.module}/kube-config.txt"
+}
+
+output "registration_token" {
+  value = rancher2_cluster.dev_cluster.cluster_registration_token[0]
+}
+
+output "token" {
+  value = local.token.node_command
+}
+
+output "cluster_id" {
+  value = rancher2_cluster.dev_cluster.id
 }

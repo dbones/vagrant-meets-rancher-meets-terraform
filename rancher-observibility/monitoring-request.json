@@ -1,0 +1,28 @@
+{
+    "answers": {
+        "operator-init.enabled": "true",
+        "exporter-node.enabled": "true",
+        "exporter-node.ports.metrics.port": "9796",
+        "exporter-kubelets.https": "true",
+        "exporter-node.resources.limits.cpu": "200m",
+        "exporter-node.resources.limits.memory": "200Mi",
+        "operator.resources.limits.memory": "500Mi",
+        "prometheus.retention": "12h",
+        "grafana.persistence.enabled": "false",
+        "prometheus.persistence.enabled": "false",
+        "prometheus.persistence.storageClass": "default",
+        "grafana.persistence.storageClass": "default",
+        "grafana.persistence.size": "10Gi",
+        "prometheus.persistence.size": "50Gi",
+        "prometheus.resources.core.requests.cpu": "750m",
+        "prometheus.resources.core.limits.cpu": "1000m",
+        "prometheus.resources.core.requests.memory": "750Mi",
+        "prometheus.resources.core.limits.memory": "1000Mi",
+        "prometheus.persistent.useReleaseName": "true",
+        "prometheus.nodeSelectors[0]": "obs=\"1\"",
+        "grafana.nodeSelectors[0]": "obs=\"1\"",
+        "operator.nodeSelectors[0]": "obs=\"1\"",
+        "exporter-kube-state.nodeSelectors[0]": "obs=\"1\""
+    },
+    "version": "0.1.1"
+}
